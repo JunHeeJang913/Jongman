@@ -1,6 +1,9 @@
 #include <iostream>
+#include <vector>
 
 using namespace std;
+
+//Treap
 
 typedef int KeyType;
 
@@ -105,4 +108,40 @@ int countLessThan(Node * root, KeyType key){
         return countLessThan(root->left, key);
     int ls = (root->left ? root->left->size : 0);
     return ls + 1 + countLessThan(root->right, key);
+}
+
+int n, shifted[50000];
+int A[50000];
+
+void solve(){
+    //1 ~ N 까지 수를 모두 저장하는 트립
+    Node * candidates = nullptr;
+    for(int i = 1; i <= n; ++i)
+        candidates = insert(candidates, new Node(i));
+    //뒤에서 부터 A[]를 채워나간다.
+    for(int i = n-1; i >= 0; --i){
+        //후보 중 이 수보다 큰 수가 larger개 있다.
+        int larger = shifted[i];
+        Node * k = kth(candidates, i + 1 - larger);
+        A[i] = k->key;
+        candidates = erase(candidates, k->key);
+    }
+}
+
+
+int main(void){
+    int C;
+    cin >> C;
+    for(int i = 0; i < C; ++i){
+        cin >> n;
+        for(int j = 0; j < n; ++j){
+            cin >> shifted[j];
+        }
+        solve();
+        for(int j = 0 ; j < n; ++j){
+            cout << A[j];
+        }
+        cout << endl;
+    }
+    return 0;
 }
