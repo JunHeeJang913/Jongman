@@ -48,7 +48,7 @@ int packetDif(string numbers, int start, int end){
 }
 
 int wholeDif(string numbers, int start){
-    if(start = numbers.size()) return 0;
+    if(start == numbers.size()) return 0;
     int & ret = cache[start];
 
     if(ret != -1) return ret;
